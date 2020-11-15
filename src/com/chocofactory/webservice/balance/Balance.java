@@ -1,4 +1,4 @@
-package com.chocofactory.webservice;
+package com.chocofactory.webservice.balance;
 
 import java.sql.ResultSet;
 

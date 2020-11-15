@@ -1,4 +1,4 @@
-package com.chocofactory.webservice;
+package com.chocofactory.webservice.recipe;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;

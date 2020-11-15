@@ -6,27 +6,12 @@ import java.io.*;
  
 
 public class FactoryDAO {
-	Connection connection;
-	Statement statement;
-	private String DB_DRIVER;
-	private String DB_URL;
-	private String DB_USERNAME;
-	private String DB_PASSWORD;
-	
-	public FactoryDAO() throws IOException {
-		Properties prop = readPropertiesFile("src/com/chocofactory/webservice/jdbc.properties");
-		DB_DRIVER = prop.getProperty("jdbc.driverClassName");
-		DB_URL = prop.getProperty("jdbc.url");
-		DB_USERNAME = prop.getProperty("jdbc.username");
-		DB_PASSWORD = prop.getProperty("jdbc.password");
-		
-        System.out.println("jdbc.driverClassName = " + DB_DRIVER);
-        System.out.println("jdbc.url = " + DB_URL);
-        System.out.println("jdbc.username = " + DB_USERNAME);
-        System.out.println("jdbc.password = " + DB_PASSWORD);
-        
-        initialize();
-	}
+	static Connection connection;
+	static Statement statement;
+	private static String DB_DRIVER;
+	private static String DB_URL;
+	private static String DB_USERNAME;
+	private static String DB_PASSWORD;
 	
 	public static Properties readPropertiesFile(String fileName) throws IOException {
 	    FileInputStream fis = null;
@@ -45,18 +30,29 @@ public class FactoryDAO {
 	    return prop;
 	}
 
-	public void initialize() {
+	public static void initialize() {
 		try {
+			Properties prop = readPropertiesFile("src/com/chocofactory/webservice/jdbc.properties");
+			DB_DRIVER = prop.getProperty("jdbc.driverClassName");
+			DB_URL = prop.getProperty("jdbc.url");
+			DB_USERNAME = prop.getProperty("jdbc.username");
+			DB_PASSWORD = prop.getProperty("jdbc.password");
+			
+	        System.out.println("jdbc.driverClassName = " + DB_DRIVER);
+	        System.out.println("jdbc.url = " + DB_URL);
+	        System.out.println("jdbc.username = " + DB_USERNAME);
+	        System.out.println("jdbc.password = " + DB_PASSWORD);
+	        
 			System.out.println("Initializing DB Connection");
-			Class.forName(this.DB_DRIVER);
-			connection=DriverManager.getConnection(this.DB_URL, this.DB_USERNAME, this.DB_PASSWORD);
+			Class.forName(DB_DRIVER);
+			connection=DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
 			System.out.println("Connected");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public ResultSet select(String query) {
+	public static ResultSet select(String query) {
 		try {
 			statement=connection.createStatement();
 			System.out.println(query);
@@ -67,7 +63,7 @@ public class FactoryDAO {
 		}
 	}
 	
-	public int updateUtil(String query) {
+	public static int updateUtil(String query) {
 		try {
 			statement=connection.createStatement();
 			System.out.println(query);
@@ -78,13 +74,13 @@ public class FactoryDAO {
 		}
 	}
 	
-	public String update(String query) {
+	public static String update(String query) {
 		int count = updateUtil(query);
 		return (count >= 0)? "Updated Successfully": "Error Updating Database";
 	}
 	
-	public String insert(String query) {
+	public static boolean insert(String query) {
 		int count = updateUtil(query);
-		return (count >= 0)? "Inserted Successfully": "Error Inserting Database";
+		return (count >= 0);
 	}
 }
