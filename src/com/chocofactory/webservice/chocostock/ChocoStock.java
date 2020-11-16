@@ -8,16 +8,22 @@ public class ChocoStock {
 	public int chocoID;
 	public String name;
 	public int amount;
+	public int price;
 	public static String dbname = "ChocoStock";
 	
-	public ChocoStock(int chocoID, String name, int amount) {
+	public ChocoStock(int chocoID, String name, int amount, int price) {
 		this.chocoID = chocoID;
 		this.name = name; 
 		this.amount = amount;
+		this.price = price;
 	}
 	
 	public static String read(int chocoID) {
 		return "SELECT * FROM " + dbname + " WHERE ChocoID='" + chocoID + "'";
+	}
+	
+	public static String create(int chocoID, int price) {
+		return "INSERT INTO " + dbname + " VALUES(" + chocoID + "," + "0," + price + ")";
 	}
 	
 	public static String read() {
@@ -35,7 +41,8 @@ public class ChocoStock {
 				chocostocks.add(new ChocoStock(
 						resultset.getInt(1),
 						resultset.getString(2),
-						resultset.getInt(3)
+						resultset.getInt(3),
+						resultset.getInt(4)
 				));
 			}
 		} catch (Exception e) {
@@ -50,7 +57,8 @@ public class ChocoStock {
 				return new ChocoStock(
 						resultset.getInt(1),
 						resultset.getString(2),
-						resultset.getInt(3)
+						resultset.getInt(3),
+						resultset.getInt(4)
 				);
 			}
 		} catch (Exception e) {

@@ -4,6 +4,9 @@ import java.util.List;
 import javax.jws.WebService;
 
 import com.chocofactory.webservice.FactoryDAO;
+import com.chocofactory.webservice.balance.BalanceSOAP;
+import com.chocofactory.webservice.chocostock.ChocoStock;
+import com.chocofactory.webservice.chocostock.ChocoStockSOAP;
 
 
 @WebService(endpointInterface="com.chocofactory.webservice.request.IRequestSOAP")
@@ -30,6 +33,15 @@ public class RequestSOAP implements IRequestSOAP{
 	}
 	
 	public boolean deliverRequest(int requestid) {
-		return this.updateRequest(requestid, "Delivered");
+		Request rq = Request.fromResultSet(FactoryDAO.select(Request.read(requestid)));
+		ChocoStock cs = ChocoStockSOAP.getChocoStockStatic(rq.chocoID);
+		if (cs.amount >= rq.amount) {
+			if(ChocoStockSOAP.addChocoStockStatic(rq.chocoID, -rq.amount)) {	
+				if(BalanceSOAP.addBalanceStatic(cs.price * rq.amount)) {
+					return this.updateRequest(requestid, "Delivered");
+				}
+			}
+		}
+		return false;
 	}
 }

@@ -3,6 +3,7 @@ package com.chocofactory.webservice.chocostock;
 import java.util.List;
 import javax.jws.WebService;
 import com.chocofactory.webservice.FactoryDAO;
+import com.chocofactory.webservice.request.Request;
 
 @WebService(endpointInterface="com.chocofactory.webservice.chocostock.IChocoStockSOAP")
 public class ChocoStockSOAP  implements IChocoStockSOAP {
@@ -11,22 +12,24 @@ public class ChocoStockSOAP  implements IChocoStockSOAP {
 		return ChocoStock.fromResultSetAll(FactoryDAO.select(ChocoStock.read()));
 	}
 	
-	public int getChocoStock(int id) {
-		ChocoStock cs = ChocoStock.fromResultSet(FactoryDAO.select(ChocoStock.read(id)));
-		return cs != null? cs.amount : null;
+	public ChocoStock getChocoStock(int id) {
+		return ChocoStock.fromResultSet(FactoryDAO.select(ChocoStock.read(id)));
 	}
 	
-	public static int getChocoStockStatic(int id) {
-		ChocoStock cs = ChocoStock.fromResultSet(FactoryDAO.select(ChocoStock.read(id)));
-		return cs != null? cs.amount : null;
+	public static ChocoStock getChocoStockStatic(int id) {
+		return ChocoStock.fromResultSet(FactoryDAO.select(ChocoStock.read(id)));
+	}
+	
+	public static boolean createChocoStock(int id, int price) {
+		return FactoryDAO.insert(Request.create(id, price));
 	}
 	
 	public boolean addChocoStock(int chocoid, int addAmount) {
-		return this.updateChocoStock(chocoid, this.getChocoStock(chocoid) + addAmount);
+		return this.updateChocoStock(chocoid, this.getChocoStock(chocoid).amount + addAmount);
 	}
 	
 	public static boolean addChocoStockStatic(int chocoid, int addAmount) {
-		return ChocoStockSOAP.updateChocoStockStatic(chocoid, ChocoStockSOAP.getChocoStockStatic(chocoid) + addAmount);
+		return ChocoStockSOAP.updateChocoStockStatic(chocoid, ChocoStockSOAP.getChocoStockStatic(chocoid).amount + addAmount);
 	}
 	
 	public boolean updateChocoStock(int chocoid, int amount) {
