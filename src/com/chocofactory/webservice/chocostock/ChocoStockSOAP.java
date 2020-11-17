@@ -3,7 +3,6 @@ package com.chocofactory.webservice.chocostock;
 import java.util.List;
 import javax.jws.WebService;
 import com.chocofactory.webservice.FactoryDAO;
-import com.chocofactory.webservice.request.Request;
 
 @WebService(endpointInterface="com.chocofactory.webservice.chocostock.IChocoStockSOAP")
 public class ChocoStockSOAP  implements IChocoStockSOAP {
@@ -20,8 +19,8 @@ public class ChocoStockSOAP  implements IChocoStockSOAP {
 		return ChocoStock.fromResultSet(FactoryDAO.select(ChocoStock.read(id)));
 	}
 	
-	public static boolean createChocoStock(int id, int price) {
-		return FactoryDAO.insert(Request.create(id, price));
+	public static Integer createChocoStock(int id, String name, int price) {
+		return FactoryDAO.insert(ChocoStock.create(id, name, price));
 	}
 	
 	public boolean addChocoStock(int chocoid, int addAmount) {
@@ -33,7 +32,7 @@ public class ChocoStockSOAP  implements IChocoStockSOAP {
 	}
 	
 	public boolean updateChocoStock(int chocoid, int amount) {
-		return FactoryDAO.updateUtil(ChocoStock.update(chocoid, amount)) == 1;
+		return FactoryDAO.insert(ChocoStock.update(chocoid, amount)) == 1;
 	}
 	
 	public static boolean updateChocoStockStatic(int chocoid, int amount) {

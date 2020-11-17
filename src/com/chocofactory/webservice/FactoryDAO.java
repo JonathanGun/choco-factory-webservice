@@ -67,11 +67,16 @@ public class FactoryDAO {
 		try {
 			statement=connection.createStatement();
 			System.out.println(query);
-			return statement.executeUpdate(query);
+			statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+			ResultSet rs = statement.getGeneratedKeys();
+			
+			if(rs.next()) {
+				return rs.getInt(1);
+			}
 		}  catch (Exception e) {
 			e.printStackTrace();
-			return -1;
 		}
+		return 0;
 	}
 	
 	public static String update(String query) {
@@ -79,8 +84,7 @@ public class FactoryDAO {
 		return (count >= 0)? "Updated Successfully": "Error Updating Database";
 	}
 	
-	public static boolean insert(String query) {
-		int count = updateUtil(query);
-		return (count >= 0);
+	public static int insert(String query) {
+		return updateUtil(query);
 	}
 }

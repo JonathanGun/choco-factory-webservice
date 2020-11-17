@@ -18,7 +18,7 @@ public class IngredientStockSOAP implements IIngredientStockSOAP{
 		return IngredientStock.fromResultSet(FactoryDAO.select(IngredientStock.read(id)));
 	}
 	
-	public boolean addIngredientStock(int ingredientid, int amount) {
+	public Integer addIngredientStock(int ingredientid, int amount) {
 		return FactoryDAO.insert(IngredientStock.create(ingredientid, amount));
 	}
 	

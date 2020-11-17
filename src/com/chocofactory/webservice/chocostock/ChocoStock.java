@@ -22,8 +22,9 @@ public class ChocoStock {
 		return "SELECT * FROM " + dbname + " WHERE ChocoID='" + chocoID + "'";
 	}
 	
-	public static String create(int chocoID, int price) {
-		return "INSERT INTO " + dbname + " VALUES(" + chocoID + "," + "0," + price + ")";
+	public static String create(int chocoID, String name, int price) {
+		int amount = 0;
+		return "INSERT INTO " + dbname + " VALUES(" + chocoID + ",'" + name + "'," + amount + "," + price + ")";
 	}
 	
 	public static String read() {

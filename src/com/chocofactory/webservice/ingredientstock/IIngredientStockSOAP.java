@@ -12,7 +12,7 @@ public interface IIngredientStockSOAP {
 	public List<IngredientStock> getIngredientStockNotExpired(@WebParam(name="id") int id);
 	public int getIngredientStockSum(@WebParam(name="id") int id);
 	public boolean process(@WebParam(name="chocoid") int chocoid, @WebParam(name="amount") int amount);
-	public boolean addIngredientStock(@WebParam(name="ingredientid") int ingredientid, @WebParam(name="amount") int amount);
+	public Integer addIngredientStock(@WebParam(name="ingredientid") int ingredientid, @WebParam(name="amount") int amount);
 	public boolean updateIngredientStock(@WebParam(name="stockid") int stockid, @WebParam(name="amount") int amount);
 	public boolean deleteIngredientStock(@WebParam(name="stockid") int stockid);
 }

@@ -24,8 +24,14 @@ public class RequestSOAP implements IRequestSOAP{
 		return (request == null)? null: request.status;
 	}
 	
-	public boolean addRequest(int chocoid, int amount) {
-		return FactoryDAO.insert(Request.create(chocoid, amount));
+	public boolean isDelivered(int id) {
+		return this.getRequestStatus(id).equals("Delivered");
+	}
+	
+	public Integer addRequest(int chocoid, int amount) {
+		Integer ans = FactoryDAO.insert(Request.create(chocoid, amount));
+		System.out.println(ans);
+		return ans;
 	}
 	
 	public boolean updateRequest(int requestid, String status) {
@@ -36,7 +42,7 @@ public class RequestSOAP implements IRequestSOAP{
 		Request rq = Request.fromResultSet(FactoryDAO.select(Request.read(requestid)));
 		ChocoStock cs = ChocoStockSOAP.getChocoStockStatic(rq.chocoID);
 		if (cs.amount >= rq.amount) {
-			if(ChocoStockSOAP.addChocoStockStatic(rq.chocoID, -rq.amount)) {	
+			if(ChocoStockSOAP.addChocoStockStatic(rq.chocoID, -rq.amount)) {
 				if(BalanceSOAP.addBalanceStatic(cs.price * rq.amount)) {
 					return this.updateRequest(requestid, "Delivered");
 				}

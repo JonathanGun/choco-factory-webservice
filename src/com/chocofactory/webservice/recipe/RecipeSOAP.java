@@ -16,10 +16,10 @@ public class RecipeSOAP  implements IRecipeSOAP{
 		return Recipe.fromResultSet(FactoryDAO.select(Recipe.read(id)));
 	}
 	
-	public boolean addRecipe(int chocoid, int price, List<Integer> ids, List<Integer> amounts) {
-		if(ChocoStockSOAP.createChocoStock(chocoid, price)) {
+	public Integer addRecipe(int chocoid, String name, int price, List<Integer> ids, List<Integer> amounts) {
+		if(ChocoStockSOAP.createChocoStock(chocoid, name, price) != null) {
 			return FactoryDAO.insert(Recipe.create(chocoid, ids, amounts));
 		}
-		return false;
+		return null;
 	}
 }
