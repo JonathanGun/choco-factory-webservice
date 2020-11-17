@@ -26,10 +26,10 @@ public class BalanceSOAP implements IBalanceSOAP {
 	}
 	
 	public boolean updateBalance(int amount) {
-		return FactoryDAO.updateUtil(Balance.update(amount)) == 1;
+		return FactoryDAO.updateUtil(Balance.update(amount)) >= 0;
 	}
 	
 	public static boolean updateBalanceStatic(int amount) {
-		return FactoryDAO.updateUtil(Balance.update(amount)) == 1;
+		return FactoryDAO.updateUtil(Balance.update(amount)) >= 0;
 	}
 }

@@ -29,9 +29,7 @@ public class RequestSOAP implements IRequestSOAP{
 	}
 	
 	public Integer addRequest(int chocoid, int amount) {
-		Integer ans = FactoryDAO.insert(Request.create(chocoid, amount));
-		System.out.println(ans);
-		return ans;
+		return FactoryDAO.insert(Request.create(chocoid, amount));
 	}
 	
 	public boolean updateRequest(int requestid, String status) {

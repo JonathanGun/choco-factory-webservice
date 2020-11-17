@@ -32,11 +32,11 @@ public class ChocoStockSOAP  implements IChocoStockSOAP {
 	}
 	
 	public boolean updateChocoStock(int chocoid, int amount) {
-		return FactoryDAO.insert(ChocoStock.update(chocoid, amount)) == 1;
+		return FactoryDAO.insert(ChocoStock.update(chocoid, amount)) >= 0;
 	}
 	
 	public static boolean updateChocoStockStatic(int chocoid, int amount) {
-		return FactoryDAO.updateUtil(ChocoStock.update(chocoid, amount)) == 1;
+		return FactoryDAO.insert(ChocoStock.update(chocoid, amount)) >= 0;
 	}
 
 }
